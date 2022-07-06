@@ -20,6 +20,7 @@ $column-footer-height: 36px;
     align-items: baseline;
     justify-content: space-between;
     background-color: rgb(230, 229, 229);
+    cursor: pointer;
 
     .title {
     }
@@ -34,6 +35,22 @@ $column-footer-height: 36px;
     overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 0;
+    }
+
+    .card-ghost {
+      transition: transform 0.18s ease;
+      transform: rotateZ(5deg);
+    }
+
+    .card-ghost-drop {
+      transition: transform 0.18s ease-in-out;
+      transform: rotateZ(0deg);
+    }
+
+    .drop-preview {
+      background-color: rgba(150, 150, 200, 0.1);
+      border: 1px dashed #abc;
+      margin: 5px;
     }
   }
 
