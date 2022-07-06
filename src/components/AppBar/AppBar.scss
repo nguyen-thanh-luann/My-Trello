@@ -1,0 +1,12 @@
+@import '../../setting';
+$bg-color: hsl(295, 47.8%, 4.5%);
+$text-color: #fff;
+
+.navBar {
+  background-color: $bg-color;
+  color: $text-color;
+  padding: 1rem;
+  font-weight: bold;
+  position: sticky;
+  top: 0;
+}
