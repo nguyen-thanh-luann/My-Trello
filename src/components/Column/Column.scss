@@ -1,0 +1,41 @@
+@import '../../setting';
+
+$column-header-height: 46px;
+$column-footer-height: 46px;
+
+.column {
+  width: 300px;
+  background-color: rgb(230, 229, 229);
+  color: black;
+  border-radius: 10px;
+  padding: 0.2rem 0.5rem;
+  margin: 0 0.5rem;
+
+  .column-header {
+    padding: 0.2rem;
+    height: $column-header-height;
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    background-color: rgb(230, 229, 229);
+
+    .title {
+    }
+
+    .option {
+      cursor: pointer;
+    }
+  }
+
+  .column-body {
+    // max-height: calc(100vh - $column-header-height - $column-footer-height);
+    max-height: 70vh;
+    overflow: scroll;
+    &::-webkit-scrollbar {
+      width: 0;
+    }
+  }
+
+  .column-footer {
+  }
+}
