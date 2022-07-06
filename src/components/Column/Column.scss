@@ -1,10 +1,12 @@
 @import '../../setting';
 
-$column-header-height: 46px;
-$column-footer-height: 46px;
+$column-header-height: 36px;
+$column-footer-height: 36px;
 
 .column {
   width: 300px;
+  height: fit-content;
+  flex: 0 0 auto;
   background-color: rgb(230, 229, 229);
   color: black;
   border-radius: 10px;
@@ -28,14 +30,15 @@ $column-footer-height: 46px;
   }
 
   .column-body {
-    // max-height: calc(100vh - $column-header-height - $column-footer-height);
-    max-height: 70vh;
-    overflow: scroll;
+    max-height: 60vh;
+    overflow-y: scroll;
     &::-webkit-scrollbar {
       width: 0;
     }
   }
 
   .column-footer {
+    height: $column-footer-height;
+    padding: 0.3rem;
   }
 }
