@@ -2,26 +2,29 @@ import React from 'react';
 import './Column.scss';
 import { AiOutlineEllipsis } from 'react-icons/ai';
 
-import Task from '../Task/Task';
-function Column() {
+import Card from '../Card/Card';
+import { mapOrder } from '../../utilities/sorts';
+
+function Column(props) {
+  const { column } = props;
+  const cards = mapOrder(column.cards, column.cardOrder, 'id');
+
   return (
     <>
       <div className='column'>
         <div className='column-header'>
-          <p className='title'>Back log </p>
+          <p className='title'>{column.title}</p>
           <AiOutlineEllipsis className='option' />
         </div>
         <div className='column-body'>
-          <Task />
-          <Task />
-          <Task />
-          <Task />
-          <Task />
-          <Task />
-          <Task />
+          {cards.map((card, index) => (
+            <Card key={index} card={card} />
+          ))}
         </div>
 
-        <div className='column-footer'></div>
+        <div className='column-footer'>
+          <p>Add another cart</p>
+        </div>
       </div>
     </>
   );
