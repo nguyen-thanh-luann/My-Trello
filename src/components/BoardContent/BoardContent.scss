@@ -1,6 +1,12 @@
 @import '../../setting';
 .BoardContent {
+  width: 100vw;
   margin-top: 80px;
   position: fixed;
   display: flex;
+  overflow-x: scroll;
+
+  &::-webkit-scrollbar {
+    width: 0;
+  }
 }

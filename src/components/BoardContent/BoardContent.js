@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Container, Draggable } from 'react-smooth-dnd';
 import { isEmpty } from 'lodash';
 import './BoardContent.scss';
 
@@ -28,12 +29,30 @@ function BoardContent() {
     );
   }
 
+  const onColumnDrop = (dropResult) => {
+    console.log(dropResult);
+  };
+
   return (
     <>
       <div className='BoardContent'>
-        {columns.map((column, index) => {
-          return <Column key={index} column={column} />;
-        })}
+        <Container
+          orientation='horizontal'
+          onDrop={onColumnDrop}
+          getChildPayload={(index) => columns[index]}
+          dragHandleSelector='.column-drag-handle'
+          dropPlaceholder={{
+            animationDuration: 150,
+            showOnTop: true,
+            className: 'cards-drop-preview',
+          }}
+        >
+          {columns.map((column, index) => (
+            <Draggable key={index}>
+              <Column column={column} />
+            </Draggable>
+          ))}
+        </Container>
       </div>
     </>
   );
