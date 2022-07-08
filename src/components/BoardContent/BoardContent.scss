@@ -1,6 +1,7 @@
 @import '../../setting';
 .BoardContent {
-  width: 100vw;
+  width: 100%;
+  max-width: 100%;
   margin-top: 80px;
   position: fixed;
   display: flex;
@@ -12,6 +13,7 @@
 
   .addNewColumn {
     width: 300px;
+    max-width: 300px;
     height: fit-content;
     border-radius: 10px;
     padding: 0.5rem;
@@ -21,6 +23,23 @@
     &:hover {
       background-color: #e8e8e89e;
       cursor: pointer;
+    }
+  }
+
+  .enterNewColumn {
+    width: 300px;
+    max-width: 300px;
+    background-color: rgb(230, 229, 229);
+    border-radius: 10px;
+  }
+
+  .btnClose {
+    cursor: pointer;
+    margin-left: 0.3rem;
+    opacity: 0.6;
+
+    &:hover {
+      opacity: 1;
     }
   }
 }
