@@ -1,5 +1,12 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import { Container, Draggable } from 'react-smooth-dnd'
+import {
+  Container as BootstrapContainer,
+  Row,
+  Col,
+  Form,
+  Button,
+} from 'react-bootstrap'
 import { isEmpty } from 'lodash'
 import './BoardContent.scss'
 
@@ -7,11 +14,15 @@ import Column from '../Column/Column'
 import { mapOrder } from '../../utilities/sorts'
 import { applyDrag } from '../../utilities/dragDrop'
 import { initialData } from '../../actions/initialData'
-import { AiOutlinePlus } from 'react-icons/ai'
+import { AiOutlinePlus, AiOutlineClose } from 'react-icons/ai'
 
 function BoardContent() {
   const [board, setBoard] = useState({})
   const [columns, setColumns] = useState([])
+  const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
+  const [listTitle, setListTitle] = useState('')
+
+  const listTitleRef = useRef(null)
 
   useEffect(() => {
     const boardFromDB = initialData.boards.find(
@@ -24,6 +35,13 @@ function BoardContent() {
       setColumns(mapOrder(boardFromDB.columns, boardFromDB.columnOrder, 'id'))
     }
   }, [])
+
+  useEffect(() => {
+    if (listTitleRef && listTitleRef.current) {
+      listTitleRef.current.focus()
+      listTitleRef.current.select()
+    }
+  }, [openNewColumnForm])
 
   if (isEmpty(board)) {
     return (
@@ -53,6 +71,35 @@ function BoardContent() {
     }
   }
 
+  const toggleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
+
+  const addNewColumn = () => {
+    if (!listTitle) {
+      listTitleRef.current.focus()
+      return
+    }
+
+    const newColumn = {
+      id: Math.random().toString(36).substring(2, 5), //5 random char
+      boardId: board.id,
+      title: listTitle.trim(),
+      cardOrder: [],
+      cards: [],
+    }
+
+    let newColumns = [...columns]
+    newColumns.push(newColumn)
+
+    let newBoard = { ...board }
+    newBoard.columnOrder = newColumns.map((col) => col.id)
+    newBoard.columns = newColumns
+
+    setColumns(newColumns)
+    setBoard(newBoard)
+    setListTitle('')
+    toggleOpenNewColumnForm()
+  }
+
   return (
     <>
       <div className='BoardContent'>
@@ -73,10 +120,42 @@ function BoardContent() {
             </Draggable>
           ))}
         </Container>
-        <div className='addNewColumn'>
-          <AiOutlinePlus />
-          <span>Thêm danh sách khác</span>
-        </div>
+        <BootstrapContainer>
+          {!openNewColumnForm && (
+            <Row className='me-2'>
+              <Col
+                className='addNewColumn'
+                onClick={() => toggleOpenNewColumnForm()}
+              >
+                <AiOutlinePlus />
+                <span>Add other list</span>
+              </Col>
+            </Row>
+          )}
+          {openNewColumnForm && (
+            <Row className='me-2'>
+              <Col className='enterNewColumn'>
+                <Form.Control
+                  size='sm'
+                  type='text'
+                  placeholder='Import list title...'
+                  className='my-2'
+                  ref={listTitleRef}
+                  value={listTitle}
+                  onChange={(e) => setListTitle(e.target.value)}
+                  onKeyDown={(e) => e.key === 'Enter' && addNewColumn()}
+                />
+                <Button variant='success mb-1' onClick={addNewColumn}>
+                  Add list
+                </Button>
+                <AiOutlineClose
+                  className='btnClose'
+                  onClick={() => toggleOpenNewColumnForm()}
+                />
+              </Col>
+            </Row>
+          )}
+        </BootstrapContainer>
       </div>
     </>
   )
