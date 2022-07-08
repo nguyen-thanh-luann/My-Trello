@@ -17,6 +17,7 @@ export const initialData = {
               title: 'Title of card 1',
               cover:
                 'http://qnimate.com/wp-content/uploads/2014/03/images2.jpg',
+              //cover: the photo link of card
             },
             {
               id: 'card-2',
@@ -45,37 +46,15 @@ export const initialData = {
           id: 'column-2',
           boardId: 'board-1',
           title: 'Doing column',
-          cardOrder: ['card-5', 'card-6', 'card-7', 'cart-8'],
+          cardOrder: ['card-5'],
           cards: [
             {
               id: 'card-5',
               boardId: 'board-1',
-              columnId: 'column-1',
+              columnId: 'column-2',
               title: 'Title of card 5',
               cover:
                 'http://qnimate.com/wp-content/uploads/2014/03/images2.jpg',
-              //cover: the photo link of card
-            },
-            {
-              id: 'card-6',
-              boardId: 'board-1',
-              columnId: 'column-1',
-              title: 'Title of card 6',
-              cover: null,
-            },
-            {
-              id: 'card-7',
-              boardId: 'board-1',
-              columnId: 'column-1',
-              title: 'Title of card 7',
-              cover: null,
-            },
-            {
-              id: 'card-8',
-              boardId: 'board-1',
-              columnId: 'column-1',
-              title: 'Title of card 8',
-              cover: null,
             },
           ],
         },
@@ -118,4 +97,4 @@ export const initialData = {
       ],
     },
   ],
-};
+}

@@ -1,17 +1,15 @@
-import React from 'react';
-import './Column.scss';
-import { AiOutlineEllipsis } from 'react-icons/ai';
-import { Container, Draggable } from 'react-smooth-dnd';
+import React from 'react'
+import './Column.scss'
+import { AiOutlineEllipsis, AiOutlinePlus } from 'react-icons/ai'
+import { Container, Draggable } from 'react-smooth-dnd'
 
-import Card from '../Card/Card';
-import { mapOrder } from '../../utilities/sorts';
+import Card from '../Card/Card'
+import { mapOrder } from '../../utilities/sorts'
 
 function Column(props) {
-  const { column } = props;
-  const cards = mapOrder(column.cards, column.cardOrder, 'id');
-  const onCardDrop = (dropResult) => {
-    console.log(dropResult);
-  };
+  const { column, onCardDrop } = props
+  const cards = mapOrder(column.cards, column.cardOrder, 'id')
+
   return (
     <>
       <div className='column'>
@@ -22,7 +20,7 @@ function Column(props) {
         <div className='column-body'>
           <Container
             groupName='col'
-            onDrop={onCardDrop}
+            onDrop={(dropResult) => onCardDrop(column.id, dropResult)}
             getChildPayload={(index) => cards[index]}
             dragClass='card-ghost'
             dropClass='card-ghost-drop'
@@ -42,11 +40,12 @@ function Column(props) {
         </div>
 
         <div className='column-footer'>
-          <p>Add another cart</p>
+          <AiOutlinePlus />
+          <span>Add another cart</span>
         </div>
       </div>
     </>
-  );
+  )
 }
 
-export default Column;
+export default Column
