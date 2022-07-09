@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import './Column.scss'
 import { AiOutlinePlus } from 'react-icons/ai'
 import { Dropdown, DropdownButton, Form } from 'react-bootstrap'
@@ -9,9 +9,32 @@ import ConfirmModal from '../Common/ConfirmModal'
 import { mapOrder } from '../../utilities/sorts'
 
 function Column(props) {
-  const { column, onCardDrop } = props
+  const { column, onCardDrop, onUpdateColumn } = props
   const cards = mapOrder(column.cards, column.cardOrder, 'id')
   const [showConfirmModal, setShowConfirmModal] = useState(false)
+  const [columnTitle, setColumnTitle] = useState('')
+
+  const handleColumnTileChange = (e) => {
+    setColumnTitle(e.target.value)
+  }
+
+  const handleColumnTileBlur = () => {
+    const newColumn = {
+      ...column,
+      title: columnTitle,
+    }
+    onUpdateColumn(newColumn)
+  }
+
+  const saveColumnTitle = (e) => {
+    if (e.key === 'Enter') {
+      e.target.blur()
+    }
+  }
+
+  useEffect(() => {
+    setColumnTitle(column.title)
+  }, [column.title])
 
   const toggleShowConfirmModal = () => {
     setShowConfirmModal(!showConfirmModal)
@@ -19,7 +42,11 @@ function Column(props) {
 
   const onConfirmModalAction = (type) => {
     if (type === 'confirm') {
-      //
+      const newColumn = {
+        ...column,
+        _destroy: true,
+      }
+      onUpdateColumn(newColumn)
     }
 
     toggleShowConfirmModal()
@@ -38,11 +65,13 @@ function Column(props) {
             size='sm'
             type='text'
             className='column-title'
-            value={column.title}
+            value={columnTitle}
             spellCheck='false'
             onClick={selectAllText}
-            // onChange={(e) => setListTitle(e.target.value)}
-            // onKeyDown={(e) => e.key === 'Enter' && addNewColumn()}
+            onChange={(e) => handleColumnTileChange(e)}
+            onBlur={handleColumnTileBlur}
+            onKeyDown={saveColumnTitle}
+            onMouseDown={(e) => e.preventDefault()}
           />
           <DropdownButton
             title=''
