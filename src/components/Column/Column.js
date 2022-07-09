@@ -1,21 +1,62 @@
-import React from 'react'
+import React, { useState } from 'react'
 import './Column.scss'
-import { AiOutlineEllipsis, AiOutlinePlus } from 'react-icons/ai'
+import { AiOutlinePlus } from 'react-icons/ai'
+import { Dropdown, DropdownButton, Form } from 'react-bootstrap'
 import { Container, Draggable } from 'react-smooth-dnd'
 
 import Card from '../Card/Card'
+import ConfirmModal from '../Common/ConfirmModal'
 import { mapOrder } from '../../utilities/sorts'
 
 function Column(props) {
   const { column, onCardDrop } = props
   const cards = mapOrder(column.cards, column.cardOrder, 'id')
+  const [showConfirmModal, setShowConfirmModal] = useState(false)
+
+  const toggleShowConfirmModal = () => {
+    setShowConfirmModal(!showConfirmModal)
+  }
+
+  const onConfirmModalAction = (type) => {
+    if (type === 'confirm') {
+      //
+    }
+
+    toggleShowConfirmModal()
+  }
+
+  const selectAllText = (e) => {
+    e.target.focus()
+    e.target.select()
+  }
 
   return (
     <>
       <div className='column'>
         <div className='column-header column-drag-handle'>
-          <p className='title'>{column.title}</p>
-          <AiOutlineEllipsis className='option' />
+          <Form.Control
+            size='sm'
+            type='text'
+            className='column-title'
+            value={column.title}
+            spellCheck='false'
+            onClick={selectAllText}
+            // onChange={(e) => setListTitle(e.target.value)}
+            // onKeyDown={(e) => e.key === 'Enter' && addNewColumn()}
+          />
+          <DropdownButton
+            title=''
+            id='column-option-btn'
+            className='column-option-btn'
+          >
+            <Dropdown.Item href='#'>Add card</Dropdown.Item>
+            <Dropdown.Item onClick={toggleShowConfirmModal}>
+              Remove column
+            </Dropdown.Item>
+            <Dropdown.Item href='#'>Something else here</Dropdown.Item>
+            <Dropdown.Divider />
+            <Dropdown.Item href='#'>Separated link</Dropdown.Item>
+          </DropdownButton>
         </div>
         <div className='column-body'>
           <Container
@@ -43,6 +84,13 @@ function Column(props) {
           <AiOutlinePlus />
           <span>Add another cart</span>
         </div>
+
+        <ConfirmModal
+          show={showConfirmModal}
+          onAction={onConfirmModalAction}
+          title='Remove column'
+          content={`Are you sure remove list ${column.title}`}
+        />
       </div>
     </>
   )

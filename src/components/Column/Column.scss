@@ -22,11 +22,32 @@ $column-footer-height: 36px;
     background-color: rgb(230, 229, 229);
     cursor: pointer;
 
-    .title {
+    .column-title {
+      border: none;
+      background-color: rgb(230, 229, 229);
+
+      &:hover {
+        cursor: pointer;
+      }
+
+      &:focus {
+        box-shadow: none;
+        background-color: #fff;
+      }
     }
 
-    .option {
-      cursor: pointer;
+    button.dropdown-toggle {
+      border: none !important;
+      color: black;
+      background-color: rgb(230, 229, 229);
+
+      &:hover {
+        background-color: rgb(252, 248, 248);
+      }
+
+      &:focus {
+        box-shadow: none;
+      }
     }
   }
 
